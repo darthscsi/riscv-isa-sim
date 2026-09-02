@@ -101,7 +101,7 @@ private:
 
 public:
   mmu_t(simif_t* sim, endianness_t endianness, processor_t* proc, reg_t cache_blocksz);
-  ~mmu_t();
+  ~mmu_t() = default;
 
   template<typename T>
   T ALWAYS_INLINE load(reg_t addr, xlate_flags_t xlate_flags = {}) {

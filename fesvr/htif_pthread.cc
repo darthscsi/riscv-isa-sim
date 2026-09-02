@@ -19,10 +19,6 @@ htif_pthread_t::htif_pthread_t(int argc, char** argv)
   host.init(thread_main, this);
 }
 
-htif_pthread_t::~htif_pthread_t()
-{
-}
-
 ssize_t htif_pthread_t::read(void* buf, size_t max_size)
 {
   while (th_data.size() == 0)

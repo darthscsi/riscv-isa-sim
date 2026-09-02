@@ -21,7 +21,7 @@ class arg_t
 {
  public:
   virtual std::string to_string(insn_t val) const = 0;
-  virtual ~arg_t() {}
+  virtual ~arg_t() = default;
 };
 
 class disasm_insn_t

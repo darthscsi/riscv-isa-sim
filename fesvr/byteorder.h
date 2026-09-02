@@ -56,7 +56,7 @@ template<typename T> class target_endian : public base_endian<T> {
   target_endian(T n) : base_endian<T>(n) {}
 
  public:
-  target_endian() {}
+  target_endian() = default;
 
   static inline target_endian to_be(T n) { return target_endian(::to_be(n)); }
   static inline target_endian to_le(T n) { return target_endian(::to_le(n)); }
@@ -74,7 +74,7 @@ template<typename T> const target_endian<T> target_endian<T>::all_ones = target_
 
 template<> class target_endian<uint8_t> : public base_endian<uint8_t> {
  public:
-  target_endian() {}
+  target_endian() = default;
   target_endian(uint8_t n) : base_endian<uint8_t>(n) {}
   operator uint8_t() { return value; }
 
@@ -84,7 +84,7 @@ template<> class target_endian<uint8_t> : public base_endian<uint8_t> {
 
 template<> class target_endian<int8_t> : public base_endian<int8_t> {
  public:
-  target_endian() {}
+  target_endian() = default;
   target_endian(int8_t n) : base_endian<int8_t>(n) {}
   operator int8_t() { return value; }
 

@@ -15,7 +15,7 @@ class dtm_t : public htif_t
 {
  public:
   dtm_t(int argc, char**argv);
-  ~dtm_t();
+  ~dtm_t() override = default;
 
   struct req {
     uint32_t addr;

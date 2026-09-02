@@ -1,0 +1,6 @@
+Checks: '-*,
+         modernize-use-equals-default'
+WarningsAsErrors: '*'
+
+HeaderFilterRegex: '.*'
+ExcludeHeaderFilterRegex: 'softfloat/.*'

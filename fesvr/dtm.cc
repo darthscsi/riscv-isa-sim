@@ -606,10 +606,6 @@ dtm_t::dtm_t(int argc, char** argv)
   start_host_thread();
 }
 
-dtm_t::~dtm_t()
-{
-}
-
 void dtm_t::tick(
   bool      req_ready,
   bool      resp_valid,

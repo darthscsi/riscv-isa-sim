@@ -16,8 +16,7 @@ enum access_type {
 class memtracer_t
 {
  public:
-  memtracer_t() {}
-  virtual ~memtracer_t() {}
+  virtual ~memtracer_t() = default;
 
   virtual bool interested_in_range(uint64_t begin, uint64_t end, access_type type) = 0;
   virtual void trace(uint64_t addr, size_t bytes, access_type type) = 0;

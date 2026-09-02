@@ -34,7 +34,7 @@ class memif_t
 {
 public:
   memif_t(chunked_memif_t* _cmemif) : cmemif(_cmemif) {}
-  virtual ~memif_t(){}
+  virtual ~memif_t() = default;
 
   // read and write byte arrays
   virtual void read(addr_t addr, size_t len, void* bytes);

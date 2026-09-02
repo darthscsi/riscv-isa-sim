@@ -28,8 +28,6 @@ static reg_t do_nop4([[maybe_unused]] processor_t *p,
 struct xslliuw_dummy_t : public extension_t {
   const char *name() const { return "dummyslliuw"; }
 
-  xslliuw_dummy_t() {}
-
   std::vector<insn_desc_t> get_instructions(const processor_t &) {
     std::vector<insn_desc_t> insns;
     insns.push_back(insn_desc_t{MATCH_SLLI_UW, MASK_SLLI_UW, do_nop4, do_nop4,

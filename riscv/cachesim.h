@@ -14,7 +14,7 @@ class lfsr_t
 {
  public:
   lfsr_t() : reg(1) {}
-  lfsr_t(const lfsr_t& lfsr) : reg(lfsr.reg) {}
+  lfsr_t(const lfsr_t& lfsr) = default;
   uint32_t next() { return reg = (reg>>1)^(-(reg&1) & 0xd0000001); }
  private:
   uint32_t reg;

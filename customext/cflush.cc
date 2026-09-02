@@ -21,8 +21,6 @@ class cflush_t : public extension_t
  public:
   const char* name() const override { return "cflush"; }
 
-  cflush_t() {}
-
   std::vector<insn_desc_t> get_instructions(const processor_t &) override {
     std::vector<insn_desc_t> insns = {
       {0xFC000073, 0xFFF07FFF, custom_cflush, custom_cflush, custom_cflush, custom_cflush, custom_cflush, custom_cflush, custom_cflush, custom_cflush},

@@ -50,9 +50,6 @@ void csr_t::verify_permissions(insn_t insn, bool write) const {
   }
 }
 
-csr_t::~csr_t() {
-}
-
 void csr_t::write(const reg_t val) noexcept {
   const bool success = unlogged_write(val);
   if (success) {

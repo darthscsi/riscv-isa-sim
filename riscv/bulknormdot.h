@@ -66,7 +66,7 @@ template <typename U, typename M, typename E, unsigned expWidth, unsigned mantWi
 public:
   U n;
   IEEEFloatFormat(U _n) : n(_n) {}
-  IEEEFloatFormat() {}
+  IEEEFloatFormat() = default;
 
   int bias = (1 << (expWidth - 1)) - 1;
   int sigBits = mantWidth + 1;

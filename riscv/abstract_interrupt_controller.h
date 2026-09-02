@@ -8,7 +8,7 @@
 class abstract_interrupt_controller_t {
  public:
   virtual void set_interrupt_level(uint32_t interrupt_id, int level) = 0;
-  virtual ~abstract_interrupt_controller_t() {}
+  virtual ~abstract_interrupt_controller_t() = default;
 };
 
 #endif

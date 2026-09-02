@@ -72,7 +72,7 @@ class matched_t
 
 class trigger_t {
 public:
-  virtual ~trigger_t() {};
+  virtual ~trigger_t() = default;
 
   virtual reg_t tdata1_read(const processor_t * const proc) const noexcept = 0;
   virtual void tdata1_write(processor_t * const proc, const reg_t val, const bool allow_chain) noexcept = 0;

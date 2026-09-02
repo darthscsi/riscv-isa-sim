@@ -19,10 +19,6 @@ tsi_t::tsi_t(int argc, char** argv) : htif_t(argc, argv)
   host.init(host_thread, this);
 }
 
-tsi_t::~tsi_t(void)
-{
-}
-
 #define MSIP_BASE 0x2000000
 
 // Interrupt core 0 to make it start executing the program in DRAM

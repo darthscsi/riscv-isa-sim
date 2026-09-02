@@ -192,8 +192,6 @@ public:
 
   void reset();
 
-  vectorUnit_t() {}
-
   ~vectorUnit_t() {
     free(reg_file);
     reg_file = 0;

@@ -11,7 +11,7 @@ class htif_pthread_t : public htif_t
 {
  public:
   htif_pthread_t(int argc, char** argv);
-  virtual ~htif_pthread_t();
+  ~htif_pthread_t() override = default;
 
   // target interface
   void send(const void* buf, size_t size);

@@ -28,10 +28,6 @@ mmu_t::mmu_t(simif_t* sim, endianness_t endianness, processor_t* proc, reg_t cac
   yield_load_reservation();
 }
 
-mmu_t::~mmu_t()
-{
-}
-
 void mmu_t::flush_icache()
 {
   for (size_t i = 0; i < ICACHE_ENTRIES; i++)

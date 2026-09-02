@@ -22,8 +22,6 @@ class dummycsr_t: public csr_t {
 struct xdummycsr_t : public extension_t {
   const char *name() const override { return "dummycsr"; }
 
-  xdummycsr_t() {}
-
   std::vector<insn_desc_t> get_instructions(const processor_t &) override {
     return {};
   }

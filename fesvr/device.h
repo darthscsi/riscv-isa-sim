@@ -36,7 +36,7 @@ class device_t
 {
  public:
   device_t();
-  virtual ~device_t() {}
+  virtual ~device_t() = default;
   virtual const char* identity() = 0;
   virtual void tick() {}
 

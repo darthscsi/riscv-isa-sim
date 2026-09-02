@@ -43,7 +43,7 @@ class csr_t {
   // Child classes must implement unlogged_write()
   void write(const reg_t val) noexcept;
 
-  virtual ~csr_t();
+  virtual ~csr_t() = default;
 
  protected:
   // Return value indicates success; false means no write actually occurred
