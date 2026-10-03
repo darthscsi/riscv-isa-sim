@@ -80,14 +80,14 @@ struct state_t
 {
   void add_ireg_proxy(sscsrind_reg_csr_t_p ireg, aia_ireg_proxy_csr_t_p aia_proxy);
   void reset(processor_t* const proc, reg_t max_isa);
-  void add_csr(reg_t addr, const csr_t_p& csr);
 
   reg_t pc;
   regfile_t<reg_t, NXPR, true> XPR;
   regfile_t<freg_t, NFPR, false> FPR;
 
   // control and status registers
-  std::unordered_map<reg_t, csr_t_p> csrmap;
+  std::array<std::shared_ptr<csr_t>, 4096> csrmap;
+
   reg_t prv;    // TODO: Can this be an enum instead?
   reg_t prev_prv;
   bool prv_changed;

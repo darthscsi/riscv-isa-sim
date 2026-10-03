@@ -323,11 +323,13 @@ bool mpmpdeleg_csr_t::unlogged_write(const reg_t val) noexcept {
   bool write_success = false;
   if (max_locked_pmp_index < (int)new_val) {
     for (size_t i = 0; i < proc->n_pmp; ++i)
-      state->csrmap.erase(CSR_PMPADDR0 + i);
+      state->csrmap[CSR_PMPADDR0 + i].reset();
 
     proc->n_pmp = new_val;
     for (size_t i = 0; i < proc->n_pmp; ++i) {
-      state->add_csr(CSR_PMPADDR0 + i, state->pmpaddr[i] = std::make_shared<pmpaddr_csr_t>(proc, CSR_PMPADDR0 + i, i));
+      state->csrmap[CSR_PMPADDR0 + i] =
+                      state->pmpaddr[i] = std::make_shared<pmpaddr_csr_t>(
+                          proc, CSR_PMPADDR0 + i, i);
     }
     proc->set_spmp_addr_entry();
     write_success = masked_csr_t::unlogged_write(new_val);

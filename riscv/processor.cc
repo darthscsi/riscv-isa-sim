@@ -169,7 +169,7 @@ void processor_t::reset()
 
   for (auto e : custom_extensions) { // reset any extensions
     for (auto &csr: e.second->get_csrs(*this))
-      state.add_csr(csr->address, csr);
+      state.csrmap[csr->address] = csr;
     e.second->reset(*this);
   }
 
@@ -227,7 +227,7 @@ void processor_t::set_spmp_addr_entry()
   }
 
   for (size_t i = 0; i < (state.max_pmp - n_pmp); ++i) {
-    state.pmpaddr[n_pmp+i] = std::make_shared<spmpaddr_csr_t>(this, n_pmp+i);
+    state.pmpaddr[n_pmp + i] = std::make_shared<spmpaddr_csr_t>(this, n_pmp + i);
     state.mireg[0]->add_ireg_proxy(0x100+i, state.pmpaddr[n_pmp+i]);
     state.nonvirtual_sireg[0]->add_ireg_proxy(0x100+i, state.pmpaddr[n_pmp+i]);
   }
@@ -633,9 +633,9 @@ void processor_t::disasm(insn_t insn)
 void processor_t::put_csr(int which, reg_t val)
 {
   val = zext_xlen(val);
-  auto search = state.csrmap.find(which);
-  if (search != state.csrmap.end()) {
-    search->second->write(val);
+  auto& csr = state.csrmap[which];
+  if (csr) {
+    csr->write(val);
     return;
   }
 }
@@ -645,22 +645,21 @@ void processor_t::put_csr(int which, reg_t val)
 // side effects on reads.
 reg_t processor_t::get_csr(int which, insn_t insn, bool write, bool peek)
 {
-  auto search = state.csrmap.find(which);
-  if (search != state.csrmap.end()) {
-    if (!peek)
-      search->second->verify_permissions(insn, write);
-    return search->second->read();
-  }
-  // If we get here, the CSR doesn't exist.  Unimplemented CSRs always throw
-  // illegal-instruction exceptions, not virtual-instruction exceptions.
-  throw trap_illegal_instruction(insn.bits());
+  auto& csr = state.csrmap[which];
+  if (!csr)
+    // Unimplemented CSRs always throw illegal-instruction exceptions, not virtual-instruction exceptions.
+    throw trap_illegal_instruction(insn.bits());
+
+  if (!peek)
+    csr->verify_permissions(insn, write);
+  return csr->read();
 }
 
 reg_t processor_t::get_csr_for_write(int which)
 {
-  auto search = state.csrmap.find(which);
-  if (search != state.csrmap.end())
-    return search->second->read_for_write();
+  auto& csr = state.csrmap[which];
+  if (csr)
+    return csr->read_for_write();
 
   abort(); // The preceding permission-checked CSR read found this CSR.
 }
