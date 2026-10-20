@@ -21,6 +21,8 @@ VI_ZVK_VD_VS1_VS2_NOOPERANDS_PRELOOP_EGU32x4_NOVM_LOOP(
     EGU32x4_t X = P.VU.elt_group<EGU32x4_t>(vs1_num, idx_eg);;  // Block cipher output
 
     EGU32x4_t Z = {};
+    EGU32x4_t Hk;
+    EGU32x4_COPY(Hk, H);  // H is shifted below; keep the subkey intact for the next element group
 
     // S = brev8(Y ^ X)
     EGU32x4_t S;
@@ -29,13 +31,13 @@ VI_ZVK_VD_VS1_VS2_NOOPERANDS_PRELOOP_EGU32x4_NOVM_LOOP(
 
     for (int bit = 0; bit < 128; bit++) {
       if (EGU32x4_ISSET(S, bit)) {
-        EGU32x4_XOREQ(Z, H);
+        EGU32x4_XOREQ(Z, Hk);
       }
 
-      const bool reduce = EGU32x4_ISSET(H, 127);
-      EGU32x4_LSHIFT(H);  // Left shift by 1.
+      const bool reduce = EGU32x4_ISSET(Hk, 127);
+      EGU32x4_LSHIFT(Hk);  // Left shift by 1.
       if (reduce) {
-        H[0] ^= 0x87; // Reduce using x^7 + x^2 + x^1 + 1 polynomial
+        Hk[0] ^= 0x87; // Reduce using x^7 + x^2 + x^1 + 1 polynomial
       }
     }
     EGU32x4_BREV8(Z);

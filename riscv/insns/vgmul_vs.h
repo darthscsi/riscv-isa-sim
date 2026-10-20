@@ -21,16 +21,18 @@ VI_ZVK_VD_VS2_NOOPERANDS_PRELOOP_EGU32x4_NOVM_LOOP(
     EGU32x4_t Y = P.VU.elt_group<EGU32x4_t>(vd_num, idx_eg); // Multiplier
     EGU32x4_BREV8(Y);
     EGU32x4_t Z = {};
+    EGU32x4_t Hk;
+    EGU32x4_COPY(Hk, H);  // H is shifted below; keep the subkey intact for the next element group
 
     for (int bit = 0; bit < 128; bit++) {
       if (EGU32x4_ISSET(Y, bit)) {
-        EGU32x4_XOREQ(Z, H);
+        EGU32x4_XOREQ(Z, Hk);
       }
 
-      bool reduce = EGU32x4_ISSET(H, 127);
-      EGU32x4_LSHIFT(H);  // Lef shift by 1
+      bool reduce = EGU32x4_ISSET(Hk, 127);
+      EGU32x4_LSHIFT(Hk);  // Lef shift by 1
       if (reduce) {
-        H[0] ^= 0x87; // Reduce using x^7 + x^2 + x^1 + 1 polynomial
+        Hk[0] ^= 0x87; // Reduce using x^7 + x^2 + x^1 + 1 polynomial
       }
     }
     EGU32x4_BREV8(Z);
