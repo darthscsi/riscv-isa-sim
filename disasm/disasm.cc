@@ -514,10 +514,11 @@ struct : public arg_t {
     int newType = (insn.bits() & 0x80000000) ? insn.v_zimm10() : insn.v_zimm11();
     // if bit 31 is set, this is vsetivli and there is a 10-bit vtype, else this is vsetvli and there is an 11-bit vtype
     // If the provided vtype has reserved bits, display the hex version of the vtype instead
-    if ((newType >> 8) != 0) {
+    if ((newType >> 9) != 0) {
       s << "0x" << std::hex << newType;
     } else {
-      s << "e" << sew;
+      // vtype.altfmt selects the alternate format, e.g. e8alt
+      s << "e" << sew << ((newType >> 8) ? "alt" : "");
       if(insn.v_frac_lmul()) {
         std::string lmul_str = "";
         switch(lmul){
