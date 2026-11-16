@@ -33,8 +33,8 @@ union ui8_f8 { uint8_t ui; float8_t f; };
  * | NaN | S.1111.111 | S.11111.{01, 10, 11} |
 */
 #define isNaNE4M3UI( a ) ((~(a) & 0x7F) == 0)
-#define isInfE5M2UI( a ) ((~(a) & 0x78) == 0)
-#define isNaNE5M2UI( a ) (((~(a) & 0x78) == 0) && ((a) & 0x11))
+#define isInfE5M2UI( a ) (((a) & 0x7F) == 0x7C)
+#define isNaNE5M2UI( a ) (((~(a) & 0x7C) == 0) && ((a) & 0x03))
 
 struct exp8_sig8 { int_fast8_t exp; uint_fast8_t sig; };
 struct exp8_sig8 softfloat_normSubnormalE4M3Sig( uint_fast8_t );
