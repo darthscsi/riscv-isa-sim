@@ -56,6 +56,11 @@ for xlen in 32 64; do
     -o execute-trigger-icache-rv$xlen "$CI/execute-trigger-icache.S"
 done
 
+$HOST-gcc -nostdlib -nostartfiles -static -no-pie -fno-pie -ffreestanding \
+  -mcmodel=medany -O2 -march=rv64gcv -mabi=lp64d \
+  -Wl,--build-id=none -Wl,-Ttext-segment=0x80000000 \
+  -Wl,--section-start=.tohost=0x81000000 -o zvfofp8min $CI/zvfofp8min.c
+
 # run snippy-based tests
 wget -nv https://github.com/syntacore/snippy/releases/download/snippy-2.1/snippy-x86_64-linux.tar.xz
 tar xf snippy-x86_64-linux.tar.xz
@@ -92,6 +97,7 @@ for xlen in 32 64; do
   $INSTALL/bin/spike --isa=rv${xlen}gc execute-trigger-icache-rv$xlen
   $INSTALL/bin/spike --isa=rv${xlen}gc --log-commits execute-trigger-icache-rv$xlen 2> /dev/null
 done
+time $INSTALL/bin/spike --isa=rv64gcv_zvfbfmin_zvfofp8min zvfofp8min
 bash $CI/test-mnret-double-trap $INSTALL/bin/spike $RUN/mnret-double-trap
 bash $CI/test-mcontrol6-napot-maskmax $INSTALL/bin/spike $RUN/mcontrol6-napot-maskmax
 LD_LIBRARY_PATH="$INSTALL/lib:$LD_LIBRARY_PATH" ./test-libriscv $BUILD/pk/pk hello | grep "Hello, world!  Pi is approximately 3.141588."
